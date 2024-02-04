@@ -12,6 +12,10 @@
 <style>
      svg {
     height: 20px; /* Oculta los SVG */
+
+}
+.pagination-info {
+    display: none;
 }
 
 
@@ -23,7 +27,12 @@
         <!-- Encabezado -->
         <div class="d-flex justify-content-between align-items-center mb-2">
             <h1>NILITS</h1>
-            <button class="btn btn-outline-danger">Cerrar Sesión</button>
+            <form method="POST" class="btn btn-danger mt-3" action="{{ route('logout') }}">
+                @csrf
+                <button class="btn text-light" type="submit">
+                    Cerrar Sesión
+                </button>
+            </form>
         </div>
         <h2 class="mb-4 bg-warning text-light">Gestionar Alumnos</h2>
 
@@ -298,9 +307,14 @@
                 </tbody>
 
             </table>
+
+
+
+        </div>
+
+
+        <div class="mb-5">
             {{ $alumnos->appends(request()->query())->links() }}
-
-
         </div>
 
 

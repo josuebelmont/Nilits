@@ -19,7 +19,7 @@ class UsuariosTableSeeder extends Seeder
         DB::table('usuario')->insert([
             'nombre' => 'usuarioEjemplo',
             'pass' => hash('sha1', 'contraseñaEjemplo'),  // Usa SHA-1 para el hash
-            'nivel' => 1,  // Ajusta el nivel según sea necesario
+            'nivel' => 2,  // Ajusta el nivel según sea necesario
         ]);
     }
 }

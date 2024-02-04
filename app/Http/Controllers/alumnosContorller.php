@@ -113,7 +113,20 @@ class alumnosContorller extends Controller
         $alumno->fechaNac = $validatedData['fechaNac'];
         $alumno->dictamen = $validatedData['dictamen'];
         $alumno->estatus = $validatedData['estatus'];
-
+        $alumno->edad = '0';
+        $alumno->tipo = 'N/A';
+        $alumno->modalidad = 'N/A';
+        $alumno->evaluacion = 0;
+        $alumno->tipoTitulacion = 'N/A';
+        $alumno->fechaTitulacion = $request->fechaTitulacion ?? '2000-01-01';
+        $alumno->calendarioTitulacion = ' ';
+        $alumno->libro = ' ';
+        $alumno->ingreso = ' ';
+        $alumno->acta = ' ';
+        $alumno->libro = ' ';
+        $alumno->revisado = 0;
+        $alumno->carrera = 'NILITS';
+        $alumno->moda = 'No convencional';
         $tutor_alumno->codigo = $validatedData['codigo'];
         $tutor_alumno->id_tutor = $validatedData['tutor'];
         $tutor_alumno->activo = 1;
@@ -139,4 +152,8 @@ class alumnosContorller extends Controller
         $alumno->update($request->all());
         return redirect()->route('ruta.donde.este.la.lista');
     }
+
+
+
+
 }

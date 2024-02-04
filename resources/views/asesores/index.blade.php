@@ -18,7 +18,7 @@
             <button class="btn btn-outline-danger">Cerrar Sesión</button>
         </div>
 
-        <h2 class="mb-4 bg-warning text-light">Gestionar Alumnos</h2>
+        <h2 class="mb-4 bg-warning text-light">Gestionar profesores</h2>
 
         <!-- Barra de búsqueda -->
         <input class="form-control mb-3" type="text" id="searchInput" placeholder="Buscar">

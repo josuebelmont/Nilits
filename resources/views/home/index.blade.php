@@ -64,7 +64,9 @@
                 </a>
             </div>
             <!-- Tarjeta Tutores -->
+
             <div class="col-md-4 mb-4">
+                <a href="{{ route('gestionar-tutores') }}" style="color: black; font-family: arial; text-decoration: none ">
                 <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title">Tutores</h5>
@@ -72,7 +74,9 @@
                         <p class="card-text">Asignación de Tutores</p>
                     </div>
                 </div>
+                </a>
             </div>
+
             <!-- Tarjeta Numeralia -->
             <div class="col-md-4 mb-4">
                 <div class="card h-100">
@@ -89,7 +93,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Aspirantes</h5>
                         <i class="fas fa-user-circle" style="font-size: 60px;"></i>
-                        <p class="card-text">Gestión de Aspirantes</ p>
+                        <p class="card-text">Gestión de Aspirantes</p>
                     </div>
                 </div>
             </div>
