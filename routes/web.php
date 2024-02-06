@@ -65,4 +65,4 @@ Route::get('/maestros/tutorados/{maestroId}', [asesoresController::class,'getTut
 //PDF controller
 
 Route::get('/generar-oficio-asignacion', [PDFController::class, 'oficioAsignacion'])->name('oficio.asignacion');
-Route::get('/generar-constancia-tutoria', [PDFController::class, 'constanciaTutoria'])->name('constancia.tutoria');
+Route::get('/generar-constancia-tutoria', [PDFController::class, 'constanciaTutoria'])->name('generar-constancia-tutoria');

@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>gestion de tutores</title>
     <!-- Incluir Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -46,8 +48,8 @@
                     <p id="grado">Grado: </p>
                     <p id="nombramiento">Nombramiento: </p>
                     <!-- Botones o links para generar documentos -->
-                    <button id="btnOficioAsignacion" class="btn btn-primary" onclick="window.location='{{ route('oficio.asignacion') }}'">Generar Oficio de Asignación</button>
-                    <button id="btnConstanciaTutoria" class="btn btn-secondary" onclick="window.location='{{ route('constancia.tutoria') }}'">Constancia de Tutoría</button>
+                    <button id="btnOficioAsignacion" class="btn btn-primary" >Oficio de Asignación</button>
+                    <button id="btnConstanciaTutoria" class="btn btn-secondary" >Constancia de Tutoría</button>
 
                 </div>
 
@@ -209,6 +211,38 @@
         });
     </script>
 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('btnConstanciaTutoria').addEventListener('click', function() {
+            var selectTutor = document.getElementById('selectTutor');
+            var codigoMaestro = selectTutor.value;
+
+            if (codigoMaestro) {
+                window.location.href = '{{ url('/generar-constancia-tutoria') }}' + '?codigo=' + codigoMaestro;
+            } else {
+                alert('Por favor, selecciona un tutor antes de generar la constancia.');
+            }
+        });
+    });
+</script>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('btnOficioAsignacion').addEventListener('click', function() {
+            var selectTutor = document.getElementById('selectTutor');
+            var codigoMaestro = selectTutor.value;
+
+            if (codigoMaestro) {
+                window.location.href = '{{ url('/generar-oficio-asignacion') }}' + '?codigo=' + codigoMaestro;
+            } else {
+                alert('Por favor, selecciona un tutor antes de generar la constancia.');
+            }
+        });
+    });
+</script>
 
 
 
