@@ -1,3 +1,6 @@
+@if (Auth::check())
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,7 +21,12 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-2">
             <h1>NILITS</h1>
-            <button class="btn btn-outline-danger">Cerrar Sesión</button>
+            <form method="POST" class="btn btn-danger mt-3" action="{{ route('logout') }}">
+                @csrf
+                <button class="btn text-light" type="submit">
+                    Cerrar Sesión
+                </button>
+            </form>
         </div>
 
         <h2 class="mb-4 bg-warning text-light">Gestionar profesores</h2>
@@ -51,74 +59,11 @@
                     <button id="btnOficioAsignacion" class="btn btn-primary" >Oficio de Asignación</button>
                     <button id="btnConstanciaTutoria" class="btn btn-secondary" >Constancia de Tutoría</button>
 
+                    <button class="btn btn-primary" onclick="location.href='{{ url('/home') }}'">Volver al Menú</button>
                 </div>
 
-                {{-- Modal para mostrar a los tutorados- --}}
-
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    Numero de tutorados
-                </button>
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
 
 
-                            </div>
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Alumnos sin Tutor -->
-        <div class="row">
-            <div class="col-md-12">
-                <h5>Alumnos sin tutor</h5>
-                <input type="text" class="form-control mb-3" placeholder="Buscar" id="searchAlumno">
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Código</th>
-                            <th scope="col">Nombre</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{-- Aquí deberías rellenar las filas de la tabla con alumnos de la base de datos --}}
-                    </tbody>
-                </table>
-                <!-- Paginación -->
-                <nav aria-label="Page navigation">
-                    <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
-                        {{-- Aquí se generarían los enlaces de paginación --}}
-                        <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-
-        <div class="row mt-4">
-            <div class="col-md-12 text-center">
-                <button class="btn btn-primary" onclick="location.href='{{ url('/home') }}'">Volver al Menú</button>
-                <button class="btn btn-success" onclick="aplicarAsignacion()">Aplicar Asignación</button>
-                <button class="btn btn-danger" onclick="cerrarCiclo()">Cerrar Ciclo</button>
-            </div>
-        </div>
-    </div>
 
 
 
@@ -258,3 +203,9 @@
 </body>
 
 </html>
+
+@else
+<script>
+    window.location = "{{ url('/') }}";
+</script>
+@endif

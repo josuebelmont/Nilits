@@ -9,4 +9,5 @@ class alumnos_model extends Model
 {
     use HasFactory;
     protected $table = 'alumnos';
+    protected $primaryKey = 'codigo';
 }

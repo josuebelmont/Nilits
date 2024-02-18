@@ -79,18 +79,20 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form id="registroProfesorForm">
+                            <form id="registroProfesorForm" method="POST" action="{{ route('registro') }}">
+                                @csrf
+
                                 <div class="form-group">
-                                    <label for="codigoProfesor">Código de profesor</label>
-                                    <input type="text" class="form-control" id="codigoProfesor" required>
+                                    <label for="nombre">Código de profesor</label>
+                                    <input type="text" class="form-control" id="nombre" name="nombre" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Contraseña</label>
-                                    <input type="password" class="form-control" id="password" required>
+                                    <input type="password" class="form-control" name="pass" id="pass" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="confirmPassword">Confirma tu contraseña</label>
-                                    <input type="password" class="form-control" id="confirmPassword" required>
+                                    <input type="password" class="form-control" name="pass2" id="pass2" required>
                                 </div>
                             </form>
                         </div>
@@ -102,7 +104,8 @@
                     </div>
                 </div>
             </div>
-            <button class="btn btn-lg btn-warning btn-block text-light" type="button">Ver Alumnado</button>
+            <a class="btn btn-lg btn-warning btn-block text-light" href="{{ route('alumnado') }}">Ver Alumnado</a>
+
 
 
 

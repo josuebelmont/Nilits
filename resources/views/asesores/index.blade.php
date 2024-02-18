@@ -15,7 +15,12 @@
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-2">
             <h1>NILITS</h1>
-            <button class="btn btn-outline-danger">Cerrar Sesión</button>
+            <form method="POST" class="btn btn-danger mt-3" action="{{ route('logout') }}">
+                @csrf
+                <button class="btn text-light" type="submit">
+                    Cerrar Sesión
+                </button>
+            </form>
         </div>
 
         <h2 class="mb-4 bg-warning text-light">Gestionar profesores</h2>
@@ -39,12 +44,114 @@
                             <td>{{ $maestro->codigo }}</td>
                             <td>{{ $maestro->Nombre }} {{$maestro->Apellido}}</td>
                             <td>{{ $maestro->correo }}</td>
-                            <td><i class="fas fa-edit"></i></td>
+                            <td><i class="fas fa-edit" role="button" data-toggle="modal"
+                                data-target="#editAlumnoModal{{ $maestro->codigo }}"></i></td>
                         </tr>
 
+                        <div class="modal fade" id="editAlumnoModal{{ $maestro->codigo }}" tabindex="-1" role="dialog"
+                            aria-labelledby="editAlumnoModalLabel" aria-hidden="true">
+
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editAlumnoModalLabel">Editar Maestro
+                                            {{ $maestro->Nombre }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                            aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form method="POST"
+                                        action="{{ route('/maestros/update/', ['codigo' => $maestro->codigo]) }}">
+                                        {!! csrf_field() !!}
+                                                {{ method_field('PUT') }}
+                                        <div class="modal-body">
+                                            <!-- Campos del formulario -->
+
+                                            <div class="form-group">
+                                                <label for="codigo">Código</label>
+                                                <input type="text" class="form-control" id="codigo"
+                                                    name="codigo" value="{{ $maestro->codigo }}"
+                                                    readonly>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="nombre">Nombre</label>
+                                                <input type="text" class="form-control" id="Nombre"
+                                                    name="Nombre" required value="{{ $maestro->Nombre }}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="Apellido">Apellidos</label>
+                                                <input type="text" class="form-control" id="Apellido"
+                                                    name="Apellido" required value="{{ $maestro->Apellido }}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="correo">Correo</label>
+                                                <input type="email" class="form-control" id="correo"
+                                                    name="correo" value="{{ $maestro->correo }}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="correo">Telefono fijo</label>
+                                                <input type="text" class="form-control" id="telefonoFijo"
+                                                    name="telefonoFijo" value="{{ $maestro->telefonoFijo }}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="correo">Telefono celular</label>
+                                                <input type="text" class="form-control" id="telCel"
+                                                    name="telCel" value="{{ $maestro->telCel }}">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="correo">Extencion</label>
+                                                <input type="number" class="form-control" id="telExt"
+                                                    name="telExt" value="{{ $maestro->telExt }}">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="nombramiento">Nombramiento</label>
+                                                <input type="text" class="form-control" id="nombramiento"
+                                                    name="nombramiento" value="{{ $maestro->nombramiento }}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="cargaHoraria">Carga horaria</label>
+                                                <input type="text" class="form-control" id="cargaHoraria"
+                                                    name="cargaHoraria" value="{{ $maestro->cargaHoraria }}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="correo">Adscripcion</label>
+                                                <input type="text" class="form-control" id="adscripcion"
+                                                    name="adscripcion" value="{{ $maestro->adscripcion }}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="correo">Grado</label>
+                                                <input type="text" class="form-control" id="grado"
+                                                    name="grado" value="{{ $maestro->grado }}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="correo">Observaciones</label>
+                                                <input type="text" class="form-control" id="observaciones"
+                                                    name="observaciones" value="{{ $maestro->observaciones }}">
+                                            </div>
 
 
-                        </tr>
+
+
+
+
+
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Cerrar</button>
+                                            <button type="submit" class="btn btn-primary">Guardar
+                                                Cambios</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
                     @endforeach
                 </tbody>
 
@@ -55,10 +162,100 @@
             <button class="btn btn-warning text-light" type="button" data-toggle="modal"
                 data-target="#agregar">AGREGAR PROFESOR</button>
 
+            <a href="{{ route('/home') }}" class="btn btn-secondary">Volver al menu</a>
+
         </div>
 
 
     </div>
+
+
+    {{-- Modal para añadir maestro --}}
+    <div class="modal fade" id="agregar" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Agregar assesor</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                        <form action="{{ route('/maestros/store') }}" method="POST">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="codigo" class="form-label">Código:</label>
+                                <input type="text" class="form-control" id="codigo" name="codigo">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre:</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="apellido" class="form-label">Apellido:</label>
+                                <input type="text" class="form-control" id="apellido" name="apellido">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="correo" class="form-label">Correo:</label>
+                                <input type="email" class="form-control" id="correo" name="correo">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="telefono_fijo" class="form-label">Teléfono Fijo:</label>
+                                <input type="text" class="form-control" id="telefono_fijo" name="telefono_fijo">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="telefono_celular" class="form-label">Teléfono Celular:</label>
+                                <input type="text" class="form-control" id="telefono_celular" name="telefono_celular">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="extension" class="form-label">Extensión:</label>
+                                <input type="text" class="form-control" id="extension" name="extension">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="nombramiento" class="form-label">Nombramiento:</label>
+                                <input type="text" class="form-control" id="nombramiento" name="nombramiento">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="carga_horaria" class="form-label">Carga Horaria:</label>
+                                <input type="text" class="form-control" id="carga_horaria" name="carga_horaria">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="adscripcion" class="form-label">Adscripción:</label>
+                                <input type="text" class="form-control" id="adscripcion" name="adscripcion">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="grado" class="form-label">Grado:</label>
+                                <input type="text" class="form-control" id="grado" name="grado">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="observaciones" class="form-label">Observaciones:</label>
+                                <textarea class="form-control" id="observaciones" name="observaciones"></textarea>
+                            </div>
+
+
+                        </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
     <!--funcion para buscar en la tabla-->
     <script>

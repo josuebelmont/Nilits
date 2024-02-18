@@ -1,3 +1,4 @@
+@if (Auth::check())
 <!DOCTYPE html>
 <html lang="es">
 
@@ -121,3 +122,9 @@
 </body>
 
 </html>
+
+@else
+<script>
+    window.location = "{{ url('/') }}";
+</script>
+@endif

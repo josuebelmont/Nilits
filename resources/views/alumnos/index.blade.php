@@ -36,8 +36,15 @@
         </div>
         <h2 class="mb-4 bg-warning text-light">Gestionar Alumnos</h2>
 
-        <!-- Barra de búsqueda -->
-        <input class="form-control mb-3" type="text" id="searchInput" placeholder="Buscar">
+
+        <form action="{{ route('buscarAlumno/all') }}" method="GET">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Buscar alumno por nombre" name="query">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="submit">Buscar</button>
+                </div>
+            </div>
+        </form>
 
         <div class="row mb-3">
         <a href="{{ route('/alumnos/sintutor') }}" class="btn btn-warning text-light col-md-2 mr-5">Ver alumnos sin tutor</a>
@@ -73,7 +80,7 @@
 
                         <th>Estatus</th>
                         <th>Ultimo Dictamen</th>
-                        <th>Listado de dictamenes</th>
+
                         <th>Tutor</th>
                         <th>Datos</th>
                     </tr>
@@ -105,50 +112,14 @@
                                 @endphp
                                 {{ $dictamenActual }}
                             </td>
-                            <td>
-                                <!-- Botón que activa el modal -->
-                                <button class="btn btn-info btn-sm" data-toggle="modal"
-                                    data-target="#dictamenModal{{ $alumno->codigo }}">Ver Dictámenes</button>
 
-                                <!-- Modal para los dictámenes -->
-                                <div class="modal fade" id="dictamenModal{{ $alumno->codigo }}" tabindex="-1"
-                                    role="dialog" aria-labelledby="modalTitle{{ $alumno->codigo }}"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="modalTitle{{ $alumno->codigo }}">Dictámenes
-                                                    de {{ $alumno->Nombre }} </h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                @php
-                                                    $dictamenes = explode('.', $alumno->dictamen);
-                                                @endphp
-                                                <ul>
-                                                    @foreach ($dictamenes as $dictamen)
-                                                        <li>{{ $dictamen }}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">Cerrar</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
                             <td>{{ $alumno->tutor }}</td>
                             <!-- Botón para activar el modal -->
                             <td>
 
 
                                 <i class="fas fa-edit" role="button" data-toggle="modal" data-target="#editAlumnoModal{{ $alumno->codigo }}"
-                                      data-ingreso="{{ $alumno->ingreso }}" data-telefono="{{ $alumno->telefono }}" data-egreso="{{ $alumno->calendarioTitulacion }}" data-acta="{{ $alumno->acta }}" data-dictamen="{{ $alumno->dictamen }} "></i>
+                                     ></i>
 
                                 <!-- Modal para editar alumno -->
                         <div class="modal fade" id="editAlumnoModal{{ $alumno->codigo }}" tabindex="-1" role="dialog"
@@ -161,8 +132,9 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <form>
+                                    <form method="POST" action="{{ route('/alumnos/update/', $alumno->codigo) }}">
                                         @csrf
+                                        @method('PUT')
                                         <div class="modal-body">
                                             <!-- Campos del formulario -->
                                             <input type="hidden" id="editCodigo" name="codigo">
@@ -176,20 +148,31 @@
                                                 <input type="text" class="form-control" id="nombre" name="nombre" value="{{$alumno->Nombre}}"
                                                     required>
                                             </div>
+
                                             <div class="form-group">
                                                 <label for="correo">Correo</label>
                                                 <input type="email" class="form-control" id="correo" value="{{ $alumno->correo }}"
                                                     name="correo">
                                             </div>
+
                                             <div class="form-group">
                                                 <label for="telefono">Telefono</label>
                                                 <input type="text" class="form-control" id="telefono" value="{{ $alumno->telefono }}"
                                                     name="telefono">
                                             </div>
                                             <div class="form-group">
-                                                <label for="ingreso">Calendario de Ingreso</label>
-                                                <input type="text" class="form-control" id="ingreso"
-                                                    name="ingreso">
+                                                <label for="telefono">Calendario de ingreso</label>
+                                            <select class="form-control"  name="ingreso" id="ingreso">
+                                                @php
+                                                    $startYear = 1990;
+                                                    $endYear = date('Y');
+                                                @endphp
+
+                                                @for ($year = $startYear; $year <= $endYear; $year++)
+                                                    <option value="{{ $year }} A">{{ $year }} A</option>
+                                                    <option value="{{ $year }} B">{{ $year }} B</option>
+                                                @endfor
+                                            </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="genero">Genero</label>
@@ -247,8 +230,17 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="egreso">Calendario de Egreso</label>
-                                                <input type="text" class="form-control" id="egreso"
-                                                    name="egreso">
+                                                <select class="form-control"  name="calendarioTitulacion" id="calendarioTitulacion">
+                                                    @php
+                                                        $startYear = 1990;
+                                                        $endYear = date('Y');
+                                                    @endphp
+
+                                                    @for ($year = $startYear; $year <= $endYear; $year++)
+                                                        <option value="{{ $year }} A">{{ $year }} A</option>
+                                                        <option value="{{ $year }} B">{{ $year }} B</option>
+                                                    @endfor
+                                                </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="opcionTitulacion">Opción de Titulacion</label>
@@ -263,9 +255,9 @@
                                             <div class="form-group">
                                                 <label for="estatus">Estatus del Alumno</label>
                                                 <select class="form-control" id="estatus" name="estatus">
-                                                    <option value="Activo">Activo</option>
-                                                    <option value="Baja">Baja</option>
-                                                    <option value="Titulado">Titulado</option>
+                                                    <option value="1">Activo</option>
+                                                    <option value="4">Baja</option>
+                                                    <option value="3">Egresado</option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
@@ -284,6 +276,18 @@
                                                 <div id="dictamenContainer"></div>
                                                 <input type="hidden" name="dictamen" id="dictamenHidden">
                                             </div>
+                                            <h4>Listado de dictamenes</h4>
+                                            @php
+                                                    $dictamenes = explode('.', $alumno->dictamen);
+                                                @endphp
+                                                <ul>
+                                                    @foreach ($dictamenes as $dictamen)
+
+                                                        <input type="text" value="{{ $dictamen }}">
+                                                    @endforeach
+                                                </ul>
+
+
 
                                         </div>
                                         <div class="modal-footer">
@@ -327,7 +331,7 @@
 
         <!-- Botones de acción -->
         <div class="text-center">
-            <button class="btn btn-warning" type="button" data-toggle="modal"
+            <button class="btn btn-warning text-light" type="button" data-toggle="modal"
                 data-target="#agregar">Agregar Alumno</button>
 
             <div class="modal fade" id="agregar" tabindex="-1" role="dialog"
@@ -375,8 +379,8 @@
                                 <div class="form-group">
                                     <label for="genero">Genero</label>
                                     <select class="form-control" name="sexo" id="sexo">
-                                        <option value="1">Masculino</option>
-                                        <option value="2">Femenino</option>
+                                        <option value="0">Masculino</option>
+                                        <option value="1">Femenino</option>
                                     </select>
                                 </div>
 
@@ -434,7 +438,7 @@
                                 <!-- Dictamenes -->
                                 <div class="form-group">
                                     <label for="dictamenes">Dictamenes</label>
-                                    <input type="number" class="form-control" id="dictamen" name="dictamen">
+                                    <input type="text" class="form-control" id="dictamen" name="dictamen">
                                 </div>
                                 <div class="form-group">
                                     <label for="genero">estatus</label>
